@@ -120,99 +120,103 @@ function App() {
     }
   };
   return (
-    <div className={`container ${!previewImg ? "disable" : ""}`}>
-      <h2>Easy Image Editor</h2>
-      <div className="wrapper">
-        <div className="editor-panel">
-          <div className="filter">
-            <label className="title">Filters</label>
+    <div className="app">
+      {/* Add Logo Here */}
+      <img src="/image/logo.png" alt="logo" className="logo" />
+      <div className={`container ${!previewImg ? "disable" : ""}`}>
+        <h2>Easy Image Editor</h2>
+        <div className="wrapper">
+          <div className="editor-panel">
+            <div className="filter">
+              <label className="title">Filters</label>
 
-            <div className="options">
-              {filterOptions.map((option) => (
-                <button
-                  key={option.id}
-                  id={option.id}
-                  className={activeFilter === option.id ? "active" : ""}
-                  onClick={() => handleFilterClick(option)}
-                >
-                  {option.name}
-                </button>
-              ))}
-            </div>
-            <div className="slider">
-              <div className="filter-info">
-                <p className="name">{activeFilter}</p>
-                <p className="value">{`${sliderValue}%`}</p>
+              <div className="options">
+                {filterOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    id={option.id}
+                    className={activeFilter === option.id ? "active" : ""}
+                    onClick={() => handleFilterClick(option)}
+                  >
+                    {option.name}
+                  </button>
+                ))}
               </div>
-              <input
-                type="range"
-                min="0"
-                max={
-                  activeFilter === "brightness" || activeFilter === "saturation"
-                    ? "200"
-                    : "100"
-                }
-                value={sliderValue}
-                onChange={handleSliderChange}
+              <div className="slider">
+                <div className="filter-info">
+                  <p className="name">{activeFilter}</p>
+                  <p className="value">{`${sliderValue}%`}</p>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max={
+                    activeFilter === "brightness" || activeFilter === "saturation"
+                      ? "200"
+                      : "100"
+                  }
+                  value={sliderValue}
+                  onChange={handleSliderChange}
+                />
+              </div>
+            </div>
+            <div className="rotate">
+              <label className="title">Rotate & Flip</label>
+              <div className="options">
+                <button id="left" onClick={() => handleRotate("left")}>
+                  <i className="fa-solid fa-rotate-left"></i>
+                </button>
+                <button id="right" onClick={() => handleRotate("right")}>
+                  <i className="fa-solid fa-rotate-right"></i>
+                </button>
+                <button
+                  id="horizontal"
+                  onClick={() => handleRotate("horizontal")}
+                >
+                  <i className="bx bx-reflect-vertical"></i>
+                </button>
+                <button id="vertical" onClick={() => handleRotate("vertical")}>
+                  <i className="bx bx-reflect-horizontal"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="preview-img">
+            {previewImg ? (
+              <img
+                src={URL.createObjectURL(previewImg)}
+                alt="preview"
+                ref={previewImgRef}
+                onLoad={applyFilter}
               />
-            </div>
-          </div>
-          <div className="rotate">
-            <label className="title">Rotate & Flip</label>
-            <div className="options">
-              <button id="left" onClick={() => handleRotate("left")}>
-                <i className="fa-solid fa-rotate-left"></i>
-              </button>
-              <button id="right" onClick={() => handleRotate("right")}>
-                <i className="fa-solid fa-rotate-right"></i>
-              </button>
-              <button
-                id="horizontal"
-                onClick={() => handleRotate("horizontal")}
-              >
-                <i className="bx bx-reflect-vertical"></i>
-              </button>
-              <button id="vertical" onClick={() => handleRotate("vertical")}>
-                <i className="bx bx-reflect-horizontal"></i>
-              </button>
-            </div>
+            ) : (
+              <img src="image-placeholder.svg" alt="preview-img" />
+            )}
           </div>
         </div>
-        <div className="preview-img">
-          {previewImg ? (
-            <img
-              src={URL.createObjectURL(previewImg)}
-              alt="preview"
-              ref={previewImgRef}
-              onLoad={applyFilter}
+        <div className="controls">
+          <button className="reset-filter" onClick={resetFilter}>
+            Reset Filters
+          </button>
+          <div className="row">
+            <input
+              type="file"
+              className="file-input"
+              accept="image/*"
+              hidden
+              ref={fileInputRef}
+              onChange={loadImage}
             />
-          ) : (
-            <img src="image-placeholder.svg" alt="preview-img" />
-          )}
-        </div>
-      </div>
-      <div className="controls">
-        <button className="reset-filter" onClick={resetFilter}>
-          Reset Filters
-        </button>
-        <div className="row">
-          <input
-            type="file"
-            className="file-input"
-            accept="image/*"
-            hidden
-            ref={fileInputRef}
-            onChange={loadImage}
-          />
-          <button
-            className="choose-img"
-            onClick={() => fileInputRef.current.click()}
-          >
-            Choose Image
-          </button>
-          <button onClick={saveImage} className="save-img">
-            Save Image
-          </button>
+            <button
+              className="choose-img"
+              onClick={() => fileInputRef.current.click()}
+            >
+              Choose Image
+            </button>
+            <button onClick={saveImage} className="save-img">
+              Save Image
+            </button>
+          </div>
         </div>
       </div>
     </div>
