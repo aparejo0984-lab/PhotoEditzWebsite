@@ -12,7 +12,7 @@ Easy Image Editor is a simple web-based image editor that allows you to apply fi
 
 To run Easy Image Editor on your local machine, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/walifile/react-image-editor.git`
+1. Clone the repository: `git clone https://github.com/aparejo0984-lab/PhotoEditzWebsite`
 2. Navigate to the project directory: `cd react-image-editor`
 3. Install the dependencies: `npm install`
 4. Start the development server: `npm start`
@@ -31,15 +31,3 @@ To run Easy Image Editor on your local machine, follow these steps:
 - React
 - CSS
 - Canvas
-
-## Support
-
-If you found this project helpful and want to support me, you can buy me a coffee at:
-
-[![Buy me a coffee](https://img.shields.io/badge/-Buy%20me%20a%20coffee-orange?logo=buy-me-a-coffee&logoColor=white&labelColor=orange&color=white)](https://www.buymeacoffee.com/waliahmad9)
-
-## My YouTube Channel
-
-Check out my YouTube channel, Coding Circulate, for more web development content: [Coding Circulate](https://www.youtube.com/@codingcirculate/featured)
-
-Thanks for checking out this project! If you have any questions or suggestions, feel free to reach out to me on GitHub or my YouTube channel.
