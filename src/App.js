@@ -14,7 +14,6 @@ const adjustmentOptions = [
   // Add more adjustment options as needed
 ];
 
-
 function App() {
   const [activeTab, setActiveTab] = useState("filters");
   const [previewImg, setPreviewImg] = useState(null);
@@ -29,6 +28,7 @@ function App() {
   const [flipVertical, setFlipVertical] = useState(1);
   const fileInputRef = useRef(null);
   const previewImgRef = useRef(null);
+
   const loadImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -101,6 +101,7 @@ function App() {
         setSliderValue(grayscale);
     }
   };
+
   const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
     switch (activeFilter) {
@@ -117,6 +118,7 @@ function App() {
         setGrayscale(event.target.value);
     }
   };
+
   const handleRotate = (option) => {
     if (option === "left") {
       setRotate(rotate - 90);
@@ -145,70 +147,91 @@ function App() {
             className={`tab ${activeTab === "filters" ? "active" : ""}`}
             onClick={() => handleTabClick("filters")}
           >
-            Filters
+            Adjustments
           </button>
           <button
             className={`tab ${activeTab === "adjustments" ? "active" : ""}`}
             onClick={() => handleTabClick("adjustments")}
           >
-            Adjustments
+            Filters
           </button>
         </div>
         <div className="wrapper">
           <div className="editor-panel">
-            <div className="filter">
-              <label className="title">Filters</label>
-
-              <div className="options">
-                {filterOptions.map((option) => (
-                  <button
-                    key={option.id}
-                    id={option.id}
-                    className={activeFilter === option.id ? "active" : ""}
-                    onClick={() => handleFilterClick(option)}
-                  >
-                    {option.name}
-                  </button>
-                ))}
-              </div>
-              <div className="slider">
-                <div className="filter-info">
-                  <p className="name">{activeFilter}</p>
-                  <p className="value">{`${sliderValue}%`}</p>
+            {activeTab === "filters" && (
+              <div className="filter">
+                <label className="title">Adjustments</label>
+                <div className="options">
+                  {filterOptions.map((option) => (
+                    <button
+                      key={option.id}
+                      id={option.id}
+                      className={activeFilter === option.id ? "active" : ""}
+                      onClick={() => handleFilterClick(option)}
+                    >
+                      {option.name}
+                    </button>
+                  ))}
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max={
-                    activeFilter === "brightness" || activeFilter === "saturation"
-                      ? "200"
-                      : "100"
-                  }
-                  value={sliderValue}
-                  onChange={handleSliderChange}
-                />
+                <div className="slider">
+                  <div className="filter-info">
+                    <p className="name">{activeFilter}</p>
+                    <p className="value">{`${sliderValue}%`}</p>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max={
+                      activeFilter === "brightness" || activeFilter === "saturation"
+                        ? "200"
+                        : "100"
+                    }
+                    value={sliderValue}
+                    onChange={handleSliderChange}
+                  />
+                </div>
+                <div className="rotate">
+                  <label className="title">Rotate & Flip</label>
+                  <div className="options">
+                    <button id="left" onClick={() => handleRotate("left")}>
+                      <i className="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button id="right" onClick={() => handleRotate("right")}>
+                      <i className="fa-solid fa-rotate-right"></i>s
+                    </button>
+                    <button
+                      id="horizontal"
+                      onClick={() => handleRotate("horizontal")}
+                    >
+                      <i className="bx bx-reflect-vertical"></i>
+                    </button>
+                    <button id="vertical" onClick={() => handleRotate("vertical")}>
+                      <i className="bx bx-reflect-horizontal"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="rotate">
-              <label className="title">Rotate & Flip</label>
-              <div className="options">
-                <button id="left" onClick={() => handleRotate("left")}>
-                  <i className="fa-solid fa-rotate-left"></i>
-                </button>
-                <button id="right" onClick={() => handleRotate("right")}>
-                  <i className="fa-solid fa-rotate-right"></i>
-                </button>
-                <button
-                  id="horizontal"
-                  onClick={() => handleRotate("horizontal")}
-                >
-                  <i className="bx bx-reflect-vertical"></i>
-                </button>
-                <button id="vertical" onClick={() => handleRotate("vertical")}>
-                  <i className="bx bx-reflect-horizontal"></i>
-                </button>
+            )}
+            {activeTab === "adjustments" && (
+              <div className="adjustments">
+                <label className="title">Filters</label>
+                <div className="options">
+                  {adjustmentOptions.map((option) => (
+                    <button
+                      key={option.id}
+                      id={option.id}
+                      className={activeFilter === option.id ? "active" : ""}
+                      onClick={() => handleFilterClick(option)}
+                    >
+                      {option.name}
+                    </button>
+                  ))}
+                </div>
+                <div className="slider">
+                  {/* Add adjustment sliders and controls here */}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="preview-img">
             {previewImg ? (
