@@ -7,7 +7,16 @@ const filterOptions = [
   { id: "inversion", name: "Inversion" },
   { id: "grayscale", name: "Grayscale" },
 ];
+
+const adjustmentOptions = [
+  { id: "contrast", name: "Contrast" },
+  { id: "hue", name: "Hue" },
+  // Add more adjustment options as needed
+];
+
+
 function App() {
+  const [activeTab, setActiveTab] = useState("filters");
   const [previewImg, setPreviewImg] = useState(null);
   const [activeFilter, setActiveFilter] = useState("brightness");
   const [sliderValue, setSliderValue] = useState(100);
@@ -119,12 +128,32 @@ function App() {
       setFlipVertical(flipVertical === 1 ? -1 : 1);
     }
   };
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    resetFilter(); // Reset filters when switching tabs
+  };
+
   return (
     <div className="app">
       {/* Add Logo Here */}
       <img src="/image/logo.png" alt="logo" className="logo" />
       <div className={`container ${!previewImg ? "disable" : ""}`}>
-        <h2>Easy Image Editor</h2>
+        <h2>Image Editor</h2>
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "filters" ? "active" : ""}`}
+            onClick={() => handleTabClick("filters")}
+          >
+            Filters
+          </button>
+          <button
+            className={`tab ${activeTab === "adjustments" ? "active" : ""}`}
+            onClick={() => handleTabClick("adjustments")}
+          >
+            Adjustments
+          </button>
+        </div>
         <div className="wrapper">
           <div className="editor-panel">
             <div className="filter">
