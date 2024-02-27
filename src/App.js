@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import Select from "react-select";
 import "./App.css";
 
 const filterOptions = [
@@ -8,13 +9,24 @@ const filterOptions = [
   { id: "grayscale", name: "Grayscale" },
 ];
 
-const adjustmentOptions = [
-  { id: "contrast", name: "Contrast" },
-  { id: "hue", name: "Hue" },
-  // Add more adjustment options as needed
+// Add basic Instagram filter options
+const instagramFilters = [
+  { id: "black", name: "Black and White" },
+  { id: "clarendon", name: "Clarendon" },
+  { id: "gingham", name: "Gingham" },
+  { id: "juno", name: "Juno" },
+  { id: "lark", name: "Lark" },
+  { id: "mayfair", name: "Mayfair" },
+  { id: "moon", name: "Moon" },
+  { id: "retro", name: "Retro" },
+  { id: "sierra", name: "Sierra" },
+  { id: "valencia", name: "Valencia" },
+  { id: "vintage", name: "Vintage" },
+  { id: "walden", name: "Walden" },
 ];
 
 function App() {
+  const [shouldApplyFilter, setShouldApplyFilter] = useState(true);
   const [activeTab, setActiveTab] = useState("filters");
   const [previewImg, setPreviewImg] = useState(null);
   const [activeFilter, setActiveFilter] = useState("brightness");
@@ -37,11 +49,15 @@ function App() {
   };
 
   const applyFilter = () => {
-    previewImgRef.current.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
-    previewImgRef.current.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`;
+    console.log("apply filter");
+    if (shouldApplyFilter) {
+      previewImgRef.current.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+      previewImgRef.current.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`;
+    }
   };
 
   const resetFilter = () => {
+    setShouldApplyFilter(true);
     setBrightness("100");
     setSaturation("100");
     setInversion("0");
@@ -86,7 +102,7 @@ function App() {
 
   const handleFilterClick = (option) => {
     setActiveFilter(option.id);
-
+    setShouldApplyFilter(true);
     switch (option.id) {
       case "brightness":
         setSliderValue(brightness);
@@ -104,6 +120,7 @@ function App() {
 
   const handleSliderChange = (event) => {
     setSliderValue(event.target.value);
+    setShouldApplyFilter(true);
     switch (activeFilter) {
       case "brightness":
         setBrightness(event.target.value);
@@ -120,6 +137,7 @@ function App() {
   };
 
   const handleRotate = (option) => {
+    setShouldApplyFilter(true);
     if (option === "left") {
       setRotate(rotate - 90);
     } else if (option === "right") {
@@ -135,6 +153,167 @@ function App() {
     setActiveTab(tab);
     resetFilter(); // Reset filters when switching tabs
   };
+
+  const handleInstagramFilterChange = (selectedOption) => {
+    setActiveFilter(selectedOption.value);
+    setShouldApplyFilter(false);
+    console.log(selectedOption.value);
+    switch (selectedOption.value) {
+      case "black":
+        applyBlackAndWhiteFilter();
+        break;
+      case "clarendon":
+        applyClarendonFilter();
+        break;
+      case "gingham":
+        applyGinghamFilter();
+        break;
+      case "moon":
+        applyMoonFilter();
+        break;
+      case "vintage":
+        applyVintageFilter();
+        break;
+      case "valencia":
+        applyValenciaFilter();
+        break;
+      case "walden":
+        applyWaldenFilter();
+        break;
+      case "juno":
+        applyJunoFilter();
+        break;
+      case "lark":
+        applyLarkFilter();
+        break;
+      case "mayfair":
+        applyMayfairFilter();
+        break;
+      case "sierra":
+        applySierraFilter();
+        break;
+      case "retro": // Apply Retro filter
+        applyRetroFilter();
+        break;
+      default:
+      // Default case
+    }
+  };
+
+  const applyClarendonFilter = () => {
+    console.log("clarendon");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `contrast(1.2) brightness(1.2) saturate(1.2) hue-rotate(330deg)`;
+    }
+  };
+
+  const applyGinghamFilter = () => {
+    console.log("gingham");
+
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `contrast(1.1) brightness(1.1) saturate(0.8) sepia(0.2)`;
+    }
+
+  };
+
+  const applyMoonFilter = () => {
+    console.log("moon");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `grayscale(1) contrast(1.2) brightness(1.1)`;
+    }
+  };
+
+  const applyVintageFilter = () => {
+    console.log("vintage");
+
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.3) saturate(1.2) contrast(0.8) brightness(0.9)`;
+    }
+  };
+
+  const applyBlackAndWhiteFilter = () => {
+    console.log("black and white");
+
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `grayscale(1)`;
+    }
+  };
+
+  const applyValenciaFilter = () => {
+    console.log("valencia");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.2) contrast(1.2) brightness(1.1) hue-rotate(-30deg)`;
+    }
+  };
+
+  const applyWaldenFilter = () => {
+    console.log("walden");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.2) contrast(0.8) brightness(1.1) saturate(1.5)`;
+    }
+  };
+
+  const applyJunoFilter = () => {
+    console.log("juno");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.4) contrast(1.3) brightness(1.2) saturate(1.5) hue-rotate(-20deg)`;
+    }
+  };
+
+  const applyLarkFilter = () => {
+    console.log("lark");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.2) contrast(1.5) brightness(1.2) saturate(1.5) hue-rotate(10deg)`;
+    }
+  };
+
+  const applyMayfairFilter = () => {
+    console.log("mayfair");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.2) contrast(1.1) brightness(1.2) saturate(1.3) hue-rotate(-10deg)`;
+    }
+  };
+
+  const applySierraFilter = () => {
+    console.log("sierra");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.3) contrast(0.8) brightness(1.1) saturate(1.5) hue-rotate(-10deg)`;
+    }
+  };
+
+  const applyRetroFilter = () => {
+    console.log("retro");
+    if (previewImgRef.current) {
+      previewImgRef.current.style.filter = `sepia(0.3) contrast(0.8) brightness(1.2) saturate(1.5) hue-rotate(-30deg)`;
+    }
+  };
+
+  const customFilterStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: '1px dotted #aaa',
+      color: state.isSelected ? '#000' : '#555',
+      padding: 8,
+    }),
+    control: () => ({
+      // none of react-select's styles are passed to <Control />
+      width: 200,
+      display: 'flex',
+      borderRadius: '10px',
+      border: '1px solid #ccc',
+      boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+    }),
+  };
+
+  const options = instagramFilters.map((filter) => ({
+    value: filter.id,
+    label: (
+      <div>
+        {filter.name}
+        <div className={`filter-preview ${filter.id}`} />
+      </div>
+    ),
+  }));
 
   return (
     <div className="app">
@@ -216,16 +395,12 @@ function App() {
               <div className="adjustments">
                 <label className="title">Filters</label>
                 <div className="options">
-                  {adjustmentOptions.map((option) => (
-                    <button
-                      key={option.id}
-                      id={option.id}
-                      className={activeFilter === option.id ? "active" : ""}
-                      onClick={() => handleFilterClick(option)}
-                    >
-                      {option.name}
-                    </button>
-                  ))}
+                  <Select
+                    options={options}
+                    styles={customFilterStyles}
+                    onChange={handleInstagramFilterChange}
+                    value={options.find((opt) => opt.value === activeFilter)}
+                  />
                 </div>
                 <div className="slider">
                   {/* Add adjustment sliders and controls here */}

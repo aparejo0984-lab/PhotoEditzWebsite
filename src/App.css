@@ -195,6 +195,10 @@ body {
   border: 1px solid #af5409;
 }
 
+.clarendon {
+  filter: contrast(1.2) brightness(1.2) saturate(1.2) hue-rotate(330deg);
+}
+
 @media screen and (max-width: 760px) {
   .container {
     padding: 25px;
