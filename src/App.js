@@ -26,6 +26,7 @@ const instagramFilters = [
 ];
 
 function App() {
+  const [instagramFilterValue, setInstagramFilterValue] = useState(null);
   const [shouldApplyFilter, setShouldApplyFilter] = useState(true);
   const [activeTab, setActiveTab] = useState("filters");
   const [previewImg, setPreviewImg] = useState(null);
@@ -77,7 +78,14 @@ function App() {
       canvas.width = image.naturalWidth;
       canvas.height = image.naturalHeight;
 
-      ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+      console.log(instagramFilterValue);
+
+      if (shouldApplyFilter) {
+        ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
+      } else {
+        ctx.filter = instagramFilterValue;
+      }
+
       ctx.translate(canvas.width / 2, canvas.height / 2);
       if (rotate !== 0) {
         ctx.rotate((rotate * Math.PI) / 180);
@@ -203,14 +211,15 @@ function App() {
   const applyClarendonFilter = () => {
     console.log("clarendon");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`contrast(1.2) brightness(1.2) saturate(1.2) hue-rotate(330deg)`);
       previewImgRef.current.style.filter = `contrast(1.2) brightness(1.2) saturate(1.2) hue-rotate(330deg)`;
     }
   };
 
   const applyGinghamFilter = () => {
     console.log("gingham");
-
     if (previewImgRef.current) {
+      setInstagramFilterValue(`contrast(1.1) brightness(1.1) saturate(0.8) sepia(0.2)`);
       previewImgRef.current.style.filter = `contrast(1.1) brightness(1.1) saturate(0.8) sepia(0.2)`;
     }
 
@@ -219,22 +228,23 @@ function App() {
   const applyMoonFilter = () => {
     console.log("moon");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`grayscale(1) contrast(1.2) brightness(1.1)`);
       previewImgRef.current.style.filter = `grayscale(1) contrast(1.2) brightness(1.1)`;
     }
   };
 
   const applyVintageFilter = () => {
     console.log("vintage");
-
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.3) saturate(1.2) contrast(0.8) brightness(0.9)`);
       previewImgRef.current.style.filter = `sepia(0.3) saturate(1.2) contrast(0.8) brightness(0.9)`;
     }
   };
 
   const applyBlackAndWhiteFilter = () => {
     console.log("black and white");
-
     if (previewImgRef.current) {
+      setInstagramFilterValue(`grayscale(1)`);
       previewImgRef.current.style.filter = `grayscale(1)`;
     }
   };
@@ -242,6 +252,7 @@ function App() {
   const applyValenciaFilter = () => {
     console.log("valencia");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.2) contrast(1.2) brightness(1.1) hue-rotate(-30deg)`);
       previewImgRef.current.style.filter = `sepia(0.2) contrast(1.2) brightness(1.1) hue-rotate(-30deg)`;
     }
   };
@@ -249,6 +260,7 @@ function App() {
   const applyWaldenFilter = () => {
     console.log("walden");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.2) contrast(0.8) brightness(1.1) saturate(1.5)`);
       previewImgRef.current.style.filter = `sepia(0.2) contrast(0.8) brightness(1.1) saturate(1.5)`;
     }
   };
@@ -256,6 +268,7 @@ function App() {
   const applyJunoFilter = () => {
     console.log("juno");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.4) contrast(1.3) brightness(1.2) saturate(1.5) hue-rotate(-20deg)`);
       previewImgRef.current.style.filter = `sepia(0.4) contrast(1.3) brightness(1.2) saturate(1.5) hue-rotate(-20deg)`;
     }
   };
@@ -263,6 +276,7 @@ function App() {
   const applyLarkFilter = () => {
     console.log("lark");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.2) contrast(1.5) brightness(1.2) saturate(1.5) hue-rotate(10deg)`);
       previewImgRef.current.style.filter = `sepia(0.2) contrast(1.5) brightness(1.2) saturate(1.5) hue-rotate(10deg)`;
     }
   };
@@ -270,6 +284,7 @@ function App() {
   const applyMayfairFilter = () => {
     console.log("mayfair");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.2) contrast(1.1) brightness(1.2) saturate(1.3) hue-rotate(-10deg)`);
       previewImgRef.current.style.filter = `sepia(0.2) contrast(1.1) brightness(1.2) saturate(1.3) hue-rotate(-10deg)`;
     }
   };
@@ -277,6 +292,7 @@ function App() {
   const applySierraFilter = () => {
     console.log("sierra");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.3) contrast(0.8) brightness(1.1) saturate(1.5) hue-rotate(-10deg)`);
       previewImgRef.current.style.filter = `sepia(0.3) contrast(0.8) brightness(1.1) saturate(1.5) hue-rotate(-10deg)`;
     }
   };
@@ -284,6 +300,7 @@ function App() {
   const applyRetroFilter = () => {
     console.log("retro");
     if (previewImgRef.current) {
+      setInstagramFilterValue(`sepia(0.3) contrast(0.8) brightness(1.2) saturate(1.5) hue-rotate(-30deg)`);
       previewImgRef.current.style.filter = `sepia(0.3) contrast(0.8) brightness(1.2) saturate(1.5) hue-rotate(-30deg)`;
     }
   };
@@ -326,13 +343,13 @@ function App() {
             className={`tab ${activeTab === "filters" ? "active" : ""}`}
             onClick={() => handleTabClick("filters")}
           >
-            Adjustments
+            Basic
           </button>
           <button
             className={`tab ${activeTab === "adjustments" ? "active" : ""}`}
             onClick={() => handleTabClick("adjustments")}
           >
-            Filters
+            Advanced
           </button>
         </div>
         <div className="wrapper">
